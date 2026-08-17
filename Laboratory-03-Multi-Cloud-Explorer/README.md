@@ -66,6 +66,26 @@ Record the output in your report and capture a screenshot.
 | Object storage | Amazon S3 | Azure Blob Storage | Cloud Storage |
 | Virtual networking | Amazon VPC | Azure Virtual Network | Google Cloud VPC |
 
-### CPU Information
+## Screenshot Evidence
+
+The following screenshots should be included as evidence of the Linux investigation:
+
+1. Operating System: KillerCoda terminal showing the output of cat /etc/os-release.
+2. CPU Information: KillerCoda terminal showing the output of lscpu.
+3. Memory: KillerCoda terminal showing the output of free -h.
+4. Disk Space: KillerCoda terminal showing the output of df -h
+
+### Linux Operating 
 ![KillerCoda Terminal](screenshots/killercoda-terminal.png)
 
+### CPU Information
+![KillerCoda Terminal](screenshots/killercoda-terminal(1).png)
+
+### Memory
+![KillerCoda Terminal](screenshots/killercoda-terminal(2).png)
+
+### Disk Space
+![KillerCoda Terminal](screenshots/killercoda-terminal(3).png)
+
+### Recommendation
+The Ubuntu Linux server can be migrated to AWS, Azure, or GCP because all three providers support Linux-based virtual machines. Amazon EC2, Azure Virtual Machines, and Google Compute Engine can provide the required compute environment for running the server and its applications. The final provider should be selected based on factors such as cost, performance, scalability, existing infrastructure, and business requirements.
