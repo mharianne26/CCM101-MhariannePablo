@@ -1,0 +1,47 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?Set MYSQL_DATABASE in .env}
+      MYSQL_USER: ${MYSQL_USER:?Set MYSQL_USER in .env}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "$${MYSQL_USER}", "-p$${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:?Set MYSQL_DATABASE in .env}
+      WORDPRESS_DB_USER: ${MYSQL_USER:?Set MYSQL_USER in .env}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - frontend
+      - backend
+
+networks:
+  frontend:
+  backend:
+    internal: true
+
+volumes:
+  db_data:
+  wordpress_data:
